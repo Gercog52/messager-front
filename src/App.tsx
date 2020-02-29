@@ -1,26 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Provider, connect} from 'react-redux';
+import {HashRouter, Switch, Route, Redirect} from 'react-router-dom';
+import store from './redux/store';
+import Header from './components/Header/Header';
+import Content from './components/content/Content';
+import LoginPageContiner from './components/LoginPage/LoginPageContiner';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Iprops {
+  isAuth: boolean
 }
 
-export default App;
+function App(props: Iprops) {
+  if(!props.isAuth) {
+    return <Redirect to="/login"/>  
+  }
+  return (
+    <div className="">
+      <Header/>
+      <Content/>
+    </div>
+  )
+}
+const AppContiner = connect(() => {
+  return {
+    isAuth: true
+  }
+})(App);
+
+
+function AppSwith() {
+  return (
+    <Switch>
+      <Route path='/login' component={LoginPageContiner}/>
+      <Route path='/' component={AppContiner}/>
+    </Switch>
+  );
+}
+function AppWrap() {
+  return <>
+    <HashRouter>
+      <Provider store={store}>
+        <AppSwith/>
+      </Provider>
+    </HashRouter>
+  </>
+}
+
+export default AppWrap;
