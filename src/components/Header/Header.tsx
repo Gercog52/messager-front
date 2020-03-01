@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -8,7 +9,7 @@ export default function Header() {
                 React Chat
             </div>
             <div>
-                logout
+                <Link to='/login'> logout </Link>
             </div>
         </div>
     )
