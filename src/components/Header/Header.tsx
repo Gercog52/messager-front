@@ -22,7 +22,7 @@ export default function Header() {
             </div>
             <Link to='/login' className={styles.btn}> 
               <Button color="inherit" >
-                Login
+                Log out
               </Button>
             </Link>
         </div>

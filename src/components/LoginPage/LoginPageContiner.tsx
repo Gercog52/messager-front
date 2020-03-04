@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom'
 import RegistrationPage from './RegistrationPage'
 
 export default function LoginPageContiner() {
-    debugger
     return (
         <div>
             <Switch>
