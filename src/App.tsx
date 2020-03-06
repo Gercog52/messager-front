@@ -23,7 +23,7 @@ function App(props: Iprops) {
 }
 const AppContiner = connect(() => {
   return {
-    isAuth: true
+    isAuth: false
   }
 })(App);
 

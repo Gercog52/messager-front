@@ -17,4 +17,4 @@ export interface IsuccesRequest<R> {
 }
 
 
-export type IdefaultRequest<R=void> = IerrorRequest | IsuccesRequest<R>
+export type IdefaultRequest<R> = IerrorRequest | IsuccesRequest<R>
