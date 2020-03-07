@@ -12,7 +12,7 @@ interface Iprops {
 
 function App(props: Iprops) {
   if(!props.isAuth) {
-    return <Redirect to="/login"/>  
+    return <Redirect to="/login"/>
   }
   return (
     <div className="">

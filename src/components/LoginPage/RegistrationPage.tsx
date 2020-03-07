@@ -1,6 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { makeStyles, TextField, Button } from '@material-ui/core'
+import { makeStyles, 
+         TextField, 
+         Button, 
+         FormControl, 
+         FormLabel, 
+         RadioGroup,
+         FormControlLabel,
+         Radio,
+         Link as MaterialLink
+        }
+        from '@material-ui/core'
+
 import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles({
@@ -51,7 +62,24 @@ const useStyles = makeStyles({
     lineHeight: 1,
   },
   genderSelecet: {
-    
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 15
+  },
+  center: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  loginBtn: {
+    background: '#228B22',
+    color: 'white',
+    '&:focus': {
+      background: 'green'
+    },
+    '&:hover': {
+      background: 'green'
+    }
   }
 })
 
@@ -94,16 +122,34 @@ export default function RegistrationPage() {
             />
           </div>
           <div>
-            Gender
-            ///
+            <FormControl fullWidth>
+              <FormLabel component="legend" className={styles.center}>
+                Gender
+              </FormLabel>
+              <RadioGroup className={styles.genderSelecet}>
+                <FormControlLabel 
+                  value="male"
+                  label="Male"
+                  control={<Radio color="primary"/>}
+                />
+                <FormControlLabel 
+                  value="fimale"
+                  label="Fimale"
+                  control={<Radio color="primary"/>}
+                />
+              </RadioGroup>
+            </FormControl>
           </div>
-          <Button>
-            green 
-            Sign Up
-          </Button>
-          <div>
-            <Link to="/login"> to login</Link>
+          <div className={styles.center}>
+            <Button variant="contained" color="primary">
+              Sign Up
+            </Button>
           </div>
+            <Link to="/login" className={styles.center}> 
+              <MaterialLink>
+                to login
+              </MaterialLink>
+            </Link>
         </form>
     )
 }

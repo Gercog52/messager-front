@@ -24,21 +24,21 @@ const setAuthErrorMessag = (messag: string): IsetAuthErrorMessag => {
     type: SET_ERROR_MESSAG_AUTH,
     messag
   }
-}
+};
 
 export const authThunk = ():IauthThunk<Promise<void>> => async(dispatch) => {
   let info
-}
+};
 export const registrationThunk = (data: IregistrationData):IauthThunk<Promise<void>> => async(dispatch) => {
   let infoRegistration = await registrationRequers(data);
   if (infoRegistration.resultCode === resultCodeInfo.sicces && infoRegistration.data) {
     dispatch(auth(infoRegistration.data));
   }
-}
+};
 
 const startState: IauthReducerState = {
   isAuth: false,
-}
+};
 
 export default function (state=startState, actions: IauthReducerActions): IauthReducerState {
   switch (actions.type) {
@@ -48,7 +48,7 @@ export default function (state=startState, actions: IauthReducerActions): IauthR
         isAuth: true,
         email: actions.email,
         login: actions.login
-      }
+      };
     default:
       return state
   }
