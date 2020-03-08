@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { TextField, makeStyles, Button } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { useFormik } from 'formik';
 
 let useStyles = makeStyles({
   centerBlock: {
@@ -44,7 +45,17 @@ let useStyles = makeStyles({
 })
 
 export default function LoginPage() {
-    let styles = useStyles();
+    const styles = useStyles();
+
+    const formik = useFormik({
+      initialValues: {
+        password: '',
+        login: '',
+      },
+      onSubmit: values => {
+        alert(JSON.stringify(values, null, 2));
+      },
+    });
     return (
         <div className={styles.centerBlock}>
             <div className={styles.infoBlock}>
@@ -54,11 +65,21 @@ export default function LoginPage() {
               Login
             </div>
             <div className={styles.inputField}>
-              <TextField label="login" variant="outlined" fullWidth />
+              <TextField label="login" 
+                         variant="outlined"
+                         name="login"
+                         value={formik.values.login}
+                         onChange={formik.handleChange}
+                         fullWidth />
             </div>
             <div className={styles.inputField}>
-              <TextField label="password" 
+              <TextField 
+                         type="password"
+                         label="password"
                          variant="outlined"
+                         name="password"
+                         value={formik.values.password}
+                         onChange={formik.handleChange}
                          fullWidth
               />
             </div>

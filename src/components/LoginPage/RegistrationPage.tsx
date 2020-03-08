@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles, 
          TextField, 
@@ -11,7 +11,7 @@ import { makeStyles,
          Link as MaterialLink
         }
         from '@material-ui/core'
-
+import { useFormik } from 'formik'
 import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles({
@@ -80,76 +80,157 @@ const useStyles = makeStyles({
     '&:hover': {
       background: 'green'
     }
+  },
+  linkTologin: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 20,
+    textDecoration: 'node'
   }
-})
+});
+interface Ifields {
+  password: string
+  email: string
+  firstName: string
+  surname: string
+  date: string
+  gender: string
+}
+interface IerrorsField {
+  password?: string
+  email?: string
+  firstName?: string
+  surname?: string
+  date?: string
+  gender?: string
+}
+
+function validate (fields: Ifields): IerrorsField {
+  const errors:IerrorsField = {};
+  if (!fields.email) {
+    errors.email = 'required field'
+  }
+  if (!fields.firstName) {
+    errors.firstName = 'required field'
+  }
+  if (!fields.surname) {
+    errors.surname = 'required field'
+  }
+  if (!fields.password) {
+    errors.password = 'required field'
+  }
+  if (fields.date === '2001-01-01') {
+    errors.date = 'required field'
+  }
+
+  return errors
+}
 
 export default function RegistrationPage() {
-  let styles = useStyles();
+  const styles = useStyles();
+  const [gender, setGender] = useState<string>('');
 
-    return (
-        <form className={styles.regForm}>
-          <div className={styles.infoBlock}>
-            <div className={styles.regForm__circle}>
-              <AddIcon/>
-            </div>
-            create account
+  const formik = useFormik({
+    initialValues: {
+      password: '',
+      email: '',
+      firstName: '',
+      surname: '',
+      date: '2001-01-01',
+      gender: ''
+    },
+    onSubmit: values => {
+      values.gender = gender;
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+  return (
+      <form className={styles.regForm} onSubmit={formik.handleSubmit}>
+        <div className={styles.infoBlock}>
+          <div className={styles.regForm__circle}>
+            <AddIcon/>
           </div>
-          <div className={styles.nameInputs}>
-            <div className={styles.firstName}>
-              <TextField placeholder='First Name'/>
-            </div>
-            <div>
-              <TextField placeholder='Surname'/>
-            </div>
-          </div>
-          <TextField className={styles.textField}
-                     variant='outlined' 
-                     label='email'
-                     fullWidth/>
-          <TextField className={styles.textField}
-                     variant='outlined' 
-                     label='password'
-                     fullWidth/>
-          <div className={styles.dateBlock}>
-            Birthday
-            <TextField
-              id="date"
-              type="date"
-              defaultValue="2017-05-24"
-              InputLabelProps={{
-                shrink: true,
-              }}
+          create account
+        </div>
+        <div className={styles.nameInputs}>
+          <div className={styles.firstName}>
+            <TextField placeholder='First Name'
+                       name='firstName'
+                       value={formik.values.firstName}
+                       onChange={formik.handleChange}
             />
           </div>
           <div>
-            <FormControl fullWidth>
-              <FormLabel component="legend" className={styles.center}>
-                Gender
-              </FormLabel>
-              <RadioGroup className={styles.genderSelecet}>
-                <FormControlLabel 
-                  value="male"
-                  label="Male"
-                  control={<Radio color="primary"/>}
-                />
-                <FormControlLabel 
-                  value="fimale"
-                  label="Fimale"
-                  control={<Radio color="primary"/>}
-                />
-              </RadioGroup>
-            </FormControl>
+            <TextField placeholder='Surname'
+                       name='surname'
+                       value={formik.values.surname}
+                       onChange={formik.handleChange}
+            />
           </div>
-          <div className={styles.center}>
-            <Button variant="contained" color="primary">
-              Sign Up
+        </div>
+        <TextField className={styles.textField}
+                    variant='outlined' 
+                    label='email'
+                    name='email'
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    fullWidth
+        />
+        <TextField  className={styles.textField}
+                    type='password'
+                    variant='outlined'
+                    name='password'
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    label='password'
+                    fullWidth
+        />
+        <div className={styles.dateBlock}>
+          Birthday
+          <TextField
+            id="date"
+            type="date"
+            name="date"
+            value={formik.values.date}
+            onChange={formik.handleChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </div>
+        <div>
+          <FormControl fullWidth>
+            <FormLabel component="legend" className={styles.center}>
+              Gender
+            </FormLabel>
+            <RadioGroup className={styles.genderSelecet}>
+              <FormControlLabel 
+                value="male"
+                label="Male"
+                control={<Radio color="primary"/>}
+                checked={gender === 'male'}
+                onClick={() => setGender('male')}
+              />
+              <FormControlLabel 
+                value="fimale"
+                label="Fimale"
+                control={<Radio color="primary"/>}
+                checked={gender === 'fimale'}
+                onClick={() => setGender('fimale')}
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
+        <div className={styles.center}>
+          <Button variant="contained" color="primary" type="submit">
+            Sign Up
+          </Button>
+        </div>
+          <Link to="/login" className={styles.linkTologin}> 
+            <Button variant="outlined" size="small" color="primary">
+              go to login
             </Button>
-          </div>
-            <Link to="/login" className={styles.center}> 
-              <MaterialLink>
-                to login
-              </MaterialLink>
-            </Link>
-        </form>
+          </Link>
+      </form>
     )
 }

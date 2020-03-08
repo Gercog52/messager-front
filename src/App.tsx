@@ -5,6 +5,7 @@ import store from './redux/store';
 import Header from './components/Header/Header';
 import Content from './components/content/Content';
 import LoginPageContiner from './components/LoginPage/LoginPageContiner';
+import './App.css'
 
 interface Iprops {
   isAuth: boolean
