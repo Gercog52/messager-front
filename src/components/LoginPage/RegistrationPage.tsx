@@ -65,7 +65,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 15
   },
   center: {
     display: 'flex',
@@ -86,6 +85,9 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     marginTop: 20,
     textDecoration: 'node'
+  },
+  genderInputs: {
+    marginBottom: 20,
   }
 });
 interface Ifields {
@@ -110,17 +112,20 @@ function validate (fields: Ifields): IerrorsField {
   if (!fields.email) {
     errors.email = 'required field'
   }
-  if (!fields.firstName) {
+  if (!fields.firstName.length) {
     errors.firstName = 'required field'
   }
-  if (!fields.surname) {
+  if (!fields.surname.length) {
     errors.surname = 'required field'
   }
-  if (!fields.password) {
+  if (!fields.password.length) {
     errors.password = 'required field'
   }
   if (fields.date === '2001-01-01') {
     errors.date = 'required field'
+  }
+  if (!fields.gender.length) {
+    errors.gender = 'required field'
   }
 
   return errors
@@ -129,15 +134,22 @@ function validate (fields: Ifields): IerrorsField {
 export default function RegistrationPage() {
   const styles = useStyles();
   const [gender, setGender] = useState<string>('');
-
+  const [genderChecked, setGenderChecked] = useState(false);
+  const changeGender = (gender: string) => {
+    if (!genderChecked) {
+      setGenderChecked(true);
+    }
+    setGender(gender);
+  }
   const formik = useFormik({
+    validate,
     initialValues: {
       password: '',
       email: '',
       firstName: '',
       surname: '',
       date: '2001-01-01',
-      gender: ''
+      gender: gender
     },
     onSubmit: values => {
       values.gender = gender;
@@ -158,6 +170,9 @@ export default function RegistrationPage() {
                        name='firstName'
                        value={formik.values.firstName}
                        onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       error={(formik.errors.firstName && formik.touched.firstName) ?
+                        true : false}
             />
           </div>
           <div>
@@ -165,6 +180,9 @@ export default function RegistrationPage() {
                        name='surname'
                        value={formik.values.surname}
                        onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       error={(formik.errors.surname && formik.touched) ? 
+                        true : false}
             />
           </div>
         </div>
@@ -174,6 +192,9 @@ export default function RegistrationPage() {
                     name='email'
                     value={formik.values.email}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={(formik.errors.email && formik.touched.email) ?
+                     true : false}
                     fullWidth
         />
         <TextField  className={styles.textField}
@@ -182,6 +203,9 @@ export default function RegistrationPage() {
                     name='password'
                     value={formik.values.password}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={(formik.errors.password && formik.touched.email) ? 
+                     true : false}
                     label='password'
                     fullWidth
         />
@@ -193,32 +217,43 @@ export default function RegistrationPage() {
             name="date"
             value={formik.values.date}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={(formik.errors.date && formik.touched.date) ?
+             true : false}
             InputLabelProps={{
               shrink: true,
             }}
           />
         </div>
         <div>
-          <FormControl fullWidth>
+          <FormControl
+            className={styles.genderInputs}
+            fullWidth error={(!gender.length && genderChecked) ? 
+            true : false}
+          >
             <FormLabel component="legend" className={styles.center}>
               Gender
             </FormLabel>
-            <RadioGroup className={styles.genderSelecet}>
+            <RadioGroup className={styles.genderSelecet}
+            >
               <FormControlLabel 
                 value="male"
                 label="Male"
                 control={<Radio color="primary"/>}
                 checked={gender === 'male'}
-                onClick={() => setGender('male')}
+                onClick={() => changeGender('male')}
               />
               <FormControlLabel 
                 value="fimale"
                 label="Fimale"
                 control={<Radio color="primary"/>}
                 checked={gender === 'fimale'}
-                onClick={() => setGender('fimale')}
+                onClick={() => changeGender('fimale')}
               />
             </RadioGroup>
+            <FormLabel className={styles.center}>
+              1
+            </FormLabel>
           </FormControl>
         </div>
         <div className={styles.center}>

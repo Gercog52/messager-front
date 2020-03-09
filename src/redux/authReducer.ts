@@ -7,7 +7,7 @@ import IauthReducerState, {
   IuserInfo
 } from './authReducerType';
 import { MyCastomThunk } from './store';
-import { registrationRequers } from '../api/api';
+import { registrationRequest } from '../api/api';
 import { IregistrationData, resultCodeInfo} from '../api/apiType';
 
 type IauthThunk<R> = MyCastomThunk<R,IauthReducerActions>
@@ -30,11 +30,12 @@ export const authThunk = ():IauthThunk<Promise<void>> => async(dispatch) => {
   let info
 };
 export const registrationThunk = (data: IregistrationData):IauthThunk<Promise<void>> => async(dispatch) => {
-  let infoRegistration = await registrationRequers(data);
+  let infoRegistration = await registrationRequest(data);
   if (infoRegistration.resultCode === resultCodeInfo.sicces && infoRegistration.data) {
     dispatch(auth(infoRegistration.data));
   }
 };
+export const loginThunk = () => {}
 
 const startState: IauthReducerState = {
   isAuth: false,

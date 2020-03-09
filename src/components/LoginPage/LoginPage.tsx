@@ -57,7 +57,7 @@ export default function LoginPage() {
       },
     });
     return (
-        <div className={styles.centerBlock}>
+        <form onSubmit={formik.handleSubmit} className={styles.centerBlock}>
             <div className={styles.infoBlock}>
               <div className={styles.infoBlock__circle}>
                 <LockOutlinedIcon/>
@@ -86,6 +86,7 @@ export default function LoginPage() {
             <Button className={styles.loginBtn}
                     variant="contained" 
                     color="primary" 
+                    type="submit"
                     fullWidth
             >
               log in
@@ -95,6 +96,6 @@ export default function LoginPage() {
                 registration
               </Button>
             </Link>
-        </div>
+        </form>
     )
 }

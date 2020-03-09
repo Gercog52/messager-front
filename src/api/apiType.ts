@@ -3,6 +3,11 @@ export interface IregistrationData {
   email: string
   password: string
 }
+export interface IloginData {
+  login: string
+  password: string
+}
+
 export enum resultCodeInfo {
   sicces = 0,
   error = 1
@@ -17,4 +22,4 @@ export interface IsuccesRequest<R> {
 }
 
 
-export type IdefaultRequest<R> = IerrorRequest | IsuccesRequest<R>
+export type IdefaultRequest<R=void> = IerrorRequest | IsuccesRequest<R>
