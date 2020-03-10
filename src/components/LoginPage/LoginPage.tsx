@@ -43,11 +43,30 @@ let useStyles = makeStyles({
     textDecoration: 'none'
   }
 })
+interface IfieldsForm {
+  password: string
+  login: string
+}
+interface IerrorsFrom {
+  password?: string
+  login?: string
+}
+
+function validateForm (values: IfieldsForm): IerrorsFrom {
+  let errors: IerrorsFrom = {}
+  if (!values.login.length) {
+    errors.login = 'required field'
+  }
+  if (!values.password.length) {
+    errors.password = 'required field'
+  }
+  return errors
+}
 
 export default function LoginPage() {
     const styles = useStyles();
-
     const formik = useFormik({
+      validate: validateForm,
       initialValues: {
         password: '',
         login: '',
@@ -70,6 +89,9 @@ export default function LoginPage() {
                          name="login"
                          value={formik.values.login}
                          onChange={formik.handleChange}
+                         onBlur={formik.handleBlur}
+                         error={(formik.errors.login && formik.touched.login) ? true : false}
+                         helperText={(formik.errors.login && formik.touched.login) ? formik.errors.login : ''}
                          fullWidth />
             </div>
             <div className={styles.inputField}>
@@ -80,6 +102,9 @@ export default function LoginPage() {
                          name="password"
                          value={formik.values.password}
                          onChange={formik.handleChange}
+                         onBlur={formik.handleBlur}
+                         error={(formik.errors.password && formik.touched.password) ? true : false}
+                         helperText={(formik.errors.password && formik.touched.password) ? formik.errors.password : ''}
                          fullWidth
               />
             </div>

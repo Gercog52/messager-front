@@ -8,7 +8,6 @@ import { makeStyles,
          RadioGroup,
          FormControlLabel,
          Radio,
-         Link as MaterialLink
         }
         from '@material-ui/core'
 import { useFormik } from 'formik'
@@ -127,18 +126,16 @@ function validate (fields: Ifields): IerrorsField {
   if (!fields.gender.length) {
     errors.gender = 'required field'
   }
-
   return errors
 }
+
 
 export default function RegistrationPage() {
   const styles = useStyles();
   const [gender, setGender] = useState<string>('');
-  const [genderChecked, setGenderChecked] = useState(false);
-  const changeGender = (gender: string) => {
-    if (!genderChecked) {
-      setGenderChecked(true);
-    }
+  const [genderError, setGenderError] = useState(false);
+  const chengeGender = (gender: string) => {
+    setGenderError(false);
     setGender(gender);
   }
   const formik = useFormik({
@@ -153,9 +150,16 @@ export default function RegistrationPage() {
     },
     onSubmit: values => {
       values.gender = gender;
-      alert(JSON.stringify(values, null, 2));
+      if (gender === '') {
+        setGenderError(true);
+      } else {
+        alert(JSON.stringify(values, null, 2));
+      }
     },
   });
+  const setErrorText = (nameObject: 'date'|'password'|'firstName'|'surname'|'email'):any => {
+    return (formik.errors && formik.errors[nameObject] && formik.touched[nameObject]) ? formik.errors[nameObject] : ''
+  }
   return (
       <form className={styles.regForm} onSubmit={formik.handleSubmit}>
         <div className={styles.infoBlock}>
@@ -173,6 +177,7 @@ export default function RegistrationPage() {
                        onBlur={formik.handleBlur}
                        error={(formik.errors.firstName && formik.touched.firstName) ?
                         true : false}
+                       helperText={setErrorText('firstName')}
             />
           </div>
           <div>
@@ -183,6 +188,7 @@ export default function RegistrationPage() {
                        onBlur={formik.handleBlur}
                        error={(formik.errors.surname && formik.touched) ? 
                         true : false}
+                       helperText={setErrorText('surname')}
             />
           </div>
         </div>
@@ -195,6 +201,7 @@ export default function RegistrationPage() {
                     onBlur={formik.handleBlur}
                     error={(formik.errors.email && formik.touched.email) ?
                      true : false}
+                    helperText={setErrorText('email')}
                     fullWidth
         />
         <TextField  className={styles.textField}
@@ -207,6 +214,7 @@ export default function RegistrationPage() {
                     error={(formik.errors.password && formik.touched.email) ? 
                      true : false}
                     label='password'
+                    helperText={setErrorText('password')}
                     fullWidth
         />
         <div className={styles.dateBlock}>
@@ -220,6 +228,7 @@ export default function RegistrationPage() {
             onBlur={formik.handleBlur}
             error={(formik.errors.date && formik.touched.date) ?
              true : false}
+            helperText={setErrorText('date')}
             InputLabelProps={{
               shrink: true,
             }}
@@ -228,7 +237,7 @@ export default function RegistrationPage() {
         <div>
           <FormControl
             className={styles.genderInputs}
-            fullWidth error={(!gender.length && genderChecked) ? 
+            fullWidth error={(genderError) ? 
             true : false}
           >
             <FormLabel component="legend" className={styles.center}>
@@ -241,23 +250,26 @@ export default function RegistrationPage() {
                 label="Male"
                 control={<Radio color="primary"/>}
                 checked={gender === 'male'}
-                onClick={() => changeGender('male')}
+                onClick={() => chengeGender('male')}
               />
               <FormControlLabel 
                 value="fimale"
                 label="Fimale"
                 control={<Radio color="primary"/>}
                 checked={gender === 'fimale'}
-                onClick={() => changeGender('fimale')}
+                onClick={() => chengeGender('fimale')}
               />
             </RadioGroup>
-            <FormLabel className={styles.center}>
-              1
-            </FormLabel>
+            {(genderError) ? 
+              <FormLabel className={styles.center}>
+                required field
+              </FormLabel> : ''
+            }
           </FormControl>
         </div>
         <div className={styles.center}>
-          <Button variant="contained" color="primary" type="submit">
+          <Button variant="contained" color="primary" type="submit" onClick={() => {(!gender.length) ?
+           setGenderError(true) : setGenderError(false)}}>
             Sign Up
           </Button>
         </div>
