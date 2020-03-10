@@ -8,5 +8,5 @@ const axiosBase = axios.default.create({
 
 export const registrationRequest = (data: IregistrationData) => axiosBase.post<IdefaultRequest<IuserInfo>>('/registration',data)
   .then(info => info.data);
-export const loginRequest = (data: IloginData) => axiosBase.put<IdefaultRequest>('/login',data)
+export const loginRequest = (data: IloginData) => axiosBase.put<IdefaultRequest<IuserInfo>>('/login',data)
   .then(info => info.data);

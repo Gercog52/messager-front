@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { TextField, makeStyles, Button } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
+import { IloginData } from '../../api/apiType';
 
 let useStyles = makeStyles({
   centerBlock: {
@@ -62,8 +63,11 @@ function validateForm (values: IfieldsForm): IerrorsFrom {
   }
   return errors
 }
+interface Iprops {
+  submitFunc: (data:IloginData) => Promise<void>
+}
 
-export default function LoginPage() {
+export default function LoginPage(props:Iprops) {
     const styles = useStyles();
     const formik = useFormik({
       validate: validateForm,

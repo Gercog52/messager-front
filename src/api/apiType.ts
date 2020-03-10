@@ -1,7 +1,10 @@
 export interface IregistrationData {
-  login: string
-  email: string
   password: string
+  email: string
+  firstName: string
+  surname: string
+  date: string
+  gender: string
 }
 export interface IloginData {
   login: string
@@ -14,7 +17,7 @@ export enum resultCodeInfo {
 }
 export interface IerrorRequest {
   resultCode: resultCodeInfo.error
-  messages: string[]
+  messages: string
 }
 export interface IsuccesRequest<R> {
   resultCode: resultCodeInfo.sicces

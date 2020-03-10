@@ -11,6 +11,7 @@ import { makeStyles,
         }
         from '@material-ui/core'
 import { useFormik } from 'formik'
+import {IregistrationData as Ifields, IregistrationData} from '../../api/apiType'
 import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles({
@@ -89,14 +90,7 @@ const useStyles = makeStyles({
     marginBottom: 20,
   }
 });
-interface Ifields {
-  password: string
-  email: string
-  firstName: string
-  surname: string
-  date: string
-  gender: string
-}
+
 interface IerrorsField {
   password?: string
   email?: string
@@ -105,7 +99,6 @@ interface IerrorsField {
   date?: string
   gender?: string
 }
-
 function validate (fields: Ifields): IerrorsField {
   const errors:IerrorsField = {};
   if (!fields.email) {
@@ -123,14 +116,13 @@ function validate (fields: Ifields): IerrorsField {
   if (fields.date === '2001-01-01') {
     errors.date = 'required field'
   }
-  if (!fields.gender.length) {
-    errors.gender = 'required field'
-  }
   return errors
 }
+interface Iprops {
+  submitFunc: (data: IregistrationData) => Promise<void>
+}
 
-
-export default function RegistrationPage() {
+export default function RegistrationPage(props:Iprops) {
   const styles = useStyles();
   const [gender, setGender] = useState<string>('');
   const [genderError, setGenderError] = useState(false);
@@ -149,16 +141,16 @@ export default function RegistrationPage() {
       gender: gender
     },
     onSubmit: values => {
-      values.gender = gender;
       if (gender === '') {
         setGenderError(true);
       } else {
+        values.gender = gender;
         alert(JSON.stringify(values, null, 2));
       }
     },
   });
   const setErrorText = (nameObject: 'date'|'password'|'firstName'|'surname'|'email'):any => {
-    return (formik.errors && formik.errors[nameObject] && formik.touched[nameObject]) ? formik.errors[nameObject] : ''
+    return (formik.errors && formik.errors[nameObject] && formik.touched[nameObject]) ? formik.errors[nameObject] : ' '
   }
   return (
       <form className={styles.regForm} onSubmit={formik.handleSubmit}>
@@ -186,7 +178,7 @@ export default function RegistrationPage() {
                        value={formik.values.surname}
                        onChange={formik.handleChange}
                        onBlur={formik.handleBlur}
-                       error={(formik.errors.surname && formik.touched) ? 
+                       error={(formik.errors.surname && formik.touched.surname) ? 
                         true : false}
                        helperText={setErrorText('surname')}
             />
@@ -211,7 +203,7 @@ export default function RegistrationPage() {
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={(formik.errors.password && formik.touched.email) ? 
+                    error={(formik.errors.password && formik.touched.password) ? 
                      true : false}
                     label='password'
                     helperText={setErrorText('password')}
