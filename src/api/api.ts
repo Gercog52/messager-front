@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 import {IregistrationData,IdefaultRequest, IloginData} from './apiType';
-import {IuserInfo} from '../redux/authReducerType';
+import {IuserInfo} from '../redux/UserReducerType';
 
 const axiosBase = axios.default.create({
   baseURL: 'http://localhost:5555/'

@@ -2,7 +2,7 @@ import React from 'react';
 import {Provider, connect} from 'react-redux';
 import {HashRouter, Switch, Route, Redirect} from 'react-router-dom';
 import {logOutUser} from './redux/authReducer';
-import store from './redux/store';
+import store, { IRootState } from './redux/store';
 import Header from './components/Header/Header';
 import Content from './components/content/Content';
 import LoginPageContiner from './components/LoginPage/LoginPageContiner';
@@ -24,9 +24,9 @@ function App(props: Iprops) {
     </div>
   )
 }
-const AppContiner = connect(() => {
+const AppContiner = connect((state: IRootState) => {
   return {
-    isAuth: true
+    isAuth: state.authData.isAuth
   }
 }, {
   logOutUser

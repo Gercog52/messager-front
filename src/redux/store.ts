@@ -14,8 +14,8 @@ const redusers = combineReducers ({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(redusers, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
-export type RootState = ReturnType<typeof redusers>;
-export type MyCastomThunk<R, CastomActions extends Action> = ThunkAction<R, RootState, any, CastomActions>
-export type Dispatch = ThunkDispatch<RootState, any, Action>
+export type IRootState = ReturnType<typeof redusers>;
+export type IMyCastomThunk<R, CastomActions extends Action> = ThunkAction<R, IRootState, any, CastomActions>
+export type IDispatch = ThunkDispatch<IRootState, any, Action>
 
 export default store;

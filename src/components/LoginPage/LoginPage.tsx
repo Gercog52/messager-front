@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import { TextField, makeStyles, Button } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
 import { IloginData } from '../../api/apiType';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 let useStyles = makeStyles({
   centerBlock: {
@@ -25,6 +26,7 @@ let useStyles = makeStyles({
     fontSize: 20,
   },
   infoBlock__circle: {
+    position: 'relative',
     background: '#dc004e',
     borderRadius: '50%',
     width: 50,
@@ -35,6 +37,11 @@ let useStyles = makeStyles({
     alignItems: 'center',
     color: 'white',
     marginBottom: 10,
+  },
+  infoBlock__circleBorder: {
+    position: 'absolute',
+    left: -5,
+    top: -5,
   },
   loginBtn: {
     marginTop: 20,
@@ -65,74 +72,93 @@ function validateForm (values: IfieldsForm): IerrorsFrom {
 }
 interface Iprops {
   submitFunc: (data:IloginData) => Promise<void>
+  loginAnonimus?: () => Promise<void> 
 }
 
 export default function LoginPage(props:Iprops) {
-    const styles = useStyles();
-    const formik = useFormik({
-      validate: validateForm,
-      initialValues: {
-        password: '',
-        login: '',
-      },
-      onSubmit: values => {
-        props.submitFunc(values)
-      },
-    });
-    return (
-        <form onSubmit={formik.handleSubmit} className={styles.centerBlock}>
-            <div className={styles.infoBlock}>
-              <div className={styles.infoBlock__circle}>
-                <LockOutlinedIcon/>
-              </div>
-              Login
-            </div>
-            <div className={styles.inputField}>
-              <TextField label="login" 
-                         variant="outlined"
-                         name="login"
-                         value={formik.values.login}
-                         onChange={formik.handleChange}
-                         onBlur={formik.handleBlur}
-                         error={(formik.errors.login && formik.touched.login) ? true : false}
-                         helperText={(formik.errors.login && formik.touched.login) ? formik.errors.login : ''}
-                         fullWidth />
-            </div>
-            <div className={styles.inputField}>
-              <TextField 
-                         type="password"
-                         label="password"
-                         variant="outlined"
-                         name="password"
-                         value={formik.values.password}
-                         onChange={formik.handleChange}
-                         onBlur={formik.handleBlur}
-                         error={(formik.errors.password && formik.touched.password) ? true : false}
-                         helperText={(formik.errors.password && formik.touched.password) ? formik.errors.password : ''}
-                         fullWidth
-              />
-            </div>
-            <Button className={styles.loginBtn}
-                    variant="contained" 
-                    color="primary" 
-                    type="submit"
-                    fullWidth
-            >
-              log in
-            </Button>
-            <Button size='small'
-                    variant="contained" 
-                    color="secondary" 
-                    fullWidth style={{marginTop: 5,marginBottom: 5}}
-            >
-              log in anonymously
-            </Button>
-            <Link className={styles.linkBtn} to={'/login/registration'}>
-              <Button color="primary">
-                registration
-              </Button>
+  const styles = useStyles();
+
+  const [isLoad, setLoad] = useState(false);
+  const authAnonumus = () => {
+    if (props.loginAnonimus) {
+      setLoad(true);
+      props.loginAnonimus().then(() => {
+        setLoad(false);
+      })
+    }
+  }
+
+  const formik = useFormik({
+    validate: validateForm,
+    initialValues: {
+      password: '',
+      login: '',
+    },
+    onSubmit: values => {
+      props.submitFunc(values)
+    },
+  });
+  return (
+      <form onSubmit={formik.handleSubmit} className={styles.centerBlock}>
+          <div className={styles.infoBlock}>
+            <div className={styles.infoBlock__circle}>
+              <LockOutlinedIcon/>
+              {
+                (isLoad) && 
+                <div className={styles.infoBlock__circleBorder}>
+                  <CircularProgress size='60px'/>
+                </div>
+              }
               
-            </Link>
-        </form>
-    )
+            </div>
+            Login
+          </div>
+          <div className={styles.inputField}>
+            <TextField label="login" 
+                        variant="outlined"
+                        name="login"
+                        value={formik.values.login}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={(formik.errors.login && formik.touched.login) ? true : false}
+                        helperText={(formik.errors.login && formik.touched.login) ? formik.errors.login : ''}
+                        fullWidth />
+          </div>
+          <div className={styles.inputField}>
+            <TextField 
+                        type="password"
+                        label="password"
+                        variant="outlined"
+                        name="password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={(formik.errors.password && formik.touched.password) ? true : false}
+                        helperText={(formik.errors.password && formik.touched.password) ? formik.errors.password : ''}
+                        fullWidth
+            />
+          </div>
+          <Button className={styles.loginBtn}
+                  variant="contained" 
+                  color="primary" 
+                  type="submit"
+                  fullWidth
+          >
+            log in
+          </Button>
+          <Button size='small'
+                  variant="contained" 
+                  color="secondary" 
+                  fullWidth style={{marginTop: 5,marginBottom: 5}}
+                  onClick={authAnonumus}
+          >
+            log in anonymously
+          </Button>
+          <Link className={styles.linkBtn} to={'/login/registration'}>
+            <Button color="primary">
+              registration
+            </Button>
+          </Link>
+      </form>
+  )
 }
