@@ -11,14 +11,41 @@ import IauthReducerState, {
 import { MyCastomThunk } from './store';
 import { registrationRequest, loginRequest } from '../api/api';
 import { IregistrationData, resultCodeInfo, IloginData} from '../api/apiType';
+// @ts-ignore
+import {TokenProvider, ChatManager } from '@pusher/chatkit-client';
+
+const tokenProvider = new TokenProvider({
+  url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a9d9709b-04d0-4081-8b0b-ec13b23dce26/token',
+});
+const chatManager = new ChatManager({
+  instanceLocator: "v1:us1:a9d9709b-04d0-4081-8b0b-ec13b23dce26",
+  userId: "valera",
+  tokenProvider: tokenProvider
+});
+chatManager
+  .connect()
+  .then((currentUser: any) => {
+    console.log("Connected as user ", currentUser);
+    currentUser.subscribeToRoomMultipart({
+      roomId: currentUser.rooms[0].id,
+      hooks: {
+        onMessage: (message:any) => {
+          console.log("Received message:", message.parts[0].payload.content)
+        }
+      }
+    });
+  })
 
 type IauthThunk<R> = MyCastomThunk<R,IauthReducerActions>
 
 const auth = (data: IuserInfo): Iauth => {
   return {
     type: AUTH_USER,
+    firstName: data.firstName,
+    surname: data.surname,
     email: data.email,
-    login: data.login
+    date: data.date,
+    gender: data.gender
   }
 }
 const setAuthErrorMessag = (messag: string): IsetAuthErrorMessag => {
@@ -42,7 +69,7 @@ export const registrationThunk = (data: IregistrationData):IauthThunk<Promise<vo
   if ((infoRegistration.resultCode === resultCodeInfo.sicces) && infoRegistration.data) {
     dispatch(auth(infoRegistration.data))
   } else if (infoRegistration.resultCode === resultCodeInfo.error) {
-    dispatch(setAuthErrorMessag(infoRegistration.messages))
+    dispatch(setAuthErrorMessag(infoRegistration.messag))
   }
 };
 export const loginThunk = (data: IloginData): IauthThunk<Promise<void>> => async(dispatch) => {
@@ -50,7 +77,7 @@ export const loginThunk = (data: IloginData): IauthThunk<Promise<void>> => async
   if (infoLogin.resultCode === resultCodeInfo.sicces && infoLogin.data) {
     dispatch(auth(infoLogin.data))
   } else if (infoLogin.resultCode === resultCodeInfo.error) {
-    dispatch(setAuthErrorMessag(infoLogin.messages))
+    dispatch(setAuthErrorMessag(infoLogin.messag))
   }
 }
 
@@ -64,8 +91,13 @@ export default function (state=startState, actions: IauthReducerActions): IauthR
       return {
         ...state,
         isAuth: true,
-        email: actions.email,
-        login: actions.login,
+        userInfo: {
+          firstName: actions.firstName,
+          surname: actions.surname,
+          gender: actions.gender,
+          email: actions.email,
+          date: actions.date
+        },
         errorMessag: undefined
       };
     case SET_ERROR_MESSAG_AUTH: 
@@ -76,10 +108,9 @@ export default function (state=startState, actions: IauthReducerActions): IauthR
     case LOG_OUT_USER: {
       return {
         ...state,
-        login: undefined,
-        email: undefined,
-        errorMessag: undefined,
         isAuth: false,
+        errorMessag: undefined,
+        userInfo: undefined
       }
     }
     default:

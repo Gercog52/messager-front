@@ -145,7 +145,7 @@ export default function RegistrationPage(props:Iprops) {
         setGenderError(true);
       } else {
         values.gender = gender;
-        alert(JSON.stringify(values, null, 2));
+        props.submitFunc(values);
       }
     },
   });

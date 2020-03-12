@@ -4,6 +4,9 @@ import stylesM from './Header.module.css';
 import AppBar from '@material-ui/core/AppBar';
 import { makeStyles, Button } from '@material-ui/core';
 
+interface Iprops {
+  logOutUser: () => void
+}
 const useStyles = makeStyles({
   btn: {
     color: '#fff',
@@ -11,8 +14,7 @@ const useStyles = makeStyles({
   }
 });
 
-
-export default function Header() {
+export default function Header(props: Iprops) {
   let styles = useStyles();
     return (
       <AppBar color="primary" className={''}>
@@ -20,7 +22,7 @@ export default function Header() {
             <div>
                 React Chat
             </div>
-            <Link to='/login' className={styles.btn}> 
+            <Link to='/login' className={styles.btn} onClick={props.logOutUser}> 
               <Button color="inherit" >
                 Log out
               </Button>

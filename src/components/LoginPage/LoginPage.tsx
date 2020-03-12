@@ -76,7 +76,7 @@ export default function LoginPage(props:Iprops) {
         login: '',
       },
       onSubmit: values => {
-        alert(JSON.stringify(values, null, 2));
+        props.submitFunc(values)
       },
     });
     return (
@@ -120,10 +120,18 @@ export default function LoginPage(props:Iprops) {
             >
               log in
             </Button>
+            <Button size='small'
+                    variant="contained" 
+                    color="secondary" 
+                    fullWidth style={{marginTop: 5,marginBottom: 5}}
+            >
+              log in anonymously
+            </Button>
             <Link className={styles.linkBtn} to={'/login/registration'}>
               <Button color="primary">
                 registration
               </Button>
+              
             </Link>
         </form>
     )

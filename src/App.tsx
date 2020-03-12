@@ -1,6 +1,7 @@
 import React from 'react';
 import {Provider, connect} from 'react-redux';
 import {HashRouter, Switch, Route, Redirect} from 'react-router-dom';
+import {logOutUser} from './redux/authReducer';
 import store from './redux/store';
 import Header from './components/Header/Header';
 import Content from './components/content/Content';
@@ -9,6 +10,7 @@ import './App.css'
 
 interface Iprops {
   isAuth: boolean
+  logOutUser: () => void
 }
 
 function App(props: Iprops) {
@@ -17,17 +19,18 @@ function App(props: Iprops) {
   }
   return (
     <div className="">
-      <Header/>
+      <Header logOutUser={props.logOutUser}/>
       <Content/>
     </div>
   )
 }
 const AppContiner = connect(() => {
   return {
-    isAuth: false
+    isAuth: true
   }
+}, {
+  logOutUser
 })(App);
-
 
 function AppSwith() {
   return (
@@ -37,6 +40,9 @@ function AppSwith() {
     </Switch>
   );
 }
+
+
+
 function AppWrap() {
   return <>
     <HashRouter>
@@ -46,5 +52,4 @@ function AppWrap() {
     </HashRouter>
   </>
 }
-
 export default AppWrap;

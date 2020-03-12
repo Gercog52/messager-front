@@ -17,7 +17,7 @@ export enum resultCodeInfo {
 }
 export interface IerrorRequest {
   resultCode: resultCodeInfo.error
-  messages: string
+  messag: string
 }
 export interface IsuccesRequest<R> {
   resultCode: resultCodeInfo.sicces
