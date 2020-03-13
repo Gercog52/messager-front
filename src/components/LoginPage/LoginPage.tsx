@@ -82,9 +82,7 @@ export default function LoginPage(props:Iprops) {
   const authAnonumus = () => {
     if (props.loginAnonimus) {
       setLoad(true);
-      props.loginAnonimus().then(() => {
-        setLoad(false);
-      })
+      props.loginAnonimus();
     }
   }
 

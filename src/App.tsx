@@ -1,7 +1,7 @@
 import React from 'react';
 import {Provider, connect} from 'react-redux';
 import {HashRouter, Switch, Route, Redirect} from 'react-router-dom';
-import {logOutUser} from './redux/authReducer';
+import {logOutUserThunk} from './redux/authReducer';
 import store, { IRootState } from './redux/store';
 import Header from './components/Header/Header';
 import Content from './components/content/Content';
@@ -10,7 +10,7 @@ import './App.css'
 
 interface Iprops {
   isAuth: boolean
-  logOutUser: () => void
+  logOutUserThunk: () => void
 }
 
 function App(props: Iprops) {
@@ -19,7 +19,7 @@ function App(props: Iprops) {
   }
   return (
     <div className="">
-      <Header logOutUser={props.logOutUser}/>
+      <Header logOutUser={props.logOutUserThunk}/>
       <Content/>
     </div>
   )
@@ -29,7 +29,7 @@ const AppContiner = connect((state: IRootState) => {
     isAuth: state.authData.isAuth
   }
 }, {
-  logOutUser
+  logOutUserThunk
 })(App);
 
 function AppSwith() {
