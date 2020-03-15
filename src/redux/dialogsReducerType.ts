@@ -12,6 +12,7 @@ export interface Imessag {
 export type Idialogs = Array<Imessag>
 export interface Irooms {
   [roomId: string]: {
+    idRoom: string
     nameRoom: string
     dialogs: Idialogs
   }

@@ -60,6 +60,7 @@ export default function dialogsReducer (state=startState, actions: IdialogsReduc
         rooms: {
           ...state.rooms,
           [actions.idRoom]: {
+            idRoom: actions.idRoom,
             nameRoom: actions.nameRoom,
             dialogs: [...(state.rooms[actions.idRoom]) ? state.rooms[actions.idRoom].dialogs : [], actions.message]
           }
