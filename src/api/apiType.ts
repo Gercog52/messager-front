@@ -7,7 +7,7 @@ export interface IregistrationData {
   gender: string
 }
 export interface IloginData {
-  login: string
+  email: string
   password: string
 }
 

@@ -43,7 +43,7 @@ let useStyles = makeStyles({
     left: -5,
     top: -5,
   },
-  loginBtn: {
+  emailBtn: {
     marginTop: 20,
   },
   linkBtn: {
@@ -53,17 +53,17 @@ let useStyles = makeStyles({
 })
 interface IfieldsForm {
   password: string
-  login: string
+  email: string
 }
 interface IerrorsFrom {
   password?: string
-  login?: string
+  email?: string
 }
 
 function validateForm (values: IfieldsForm): IerrorsFrom {
   let errors: IerrorsFrom = {}
-  if (!values.login.length) {
-    errors.login = 'required field'
+  if (!values.email.length) {
+    errors.email = 'required field'
   }
   if (!values.password.length) {
     errors.password = 'required field'
@@ -90,7 +90,7 @@ export default function LoginPage(props:Iprops) {
     validate: validateForm,
     initialValues: {
       password: '',
-      login: '',
+      email: '',
     },
     onSubmit: values => {
       props.submitFunc(values)
@@ -109,17 +109,17 @@ export default function LoginPage(props:Iprops) {
               }
               
             </div>
-            Login
+            email
           </div>
           <div className={styles.inputField}>
-            <TextField label="login" 
+            <TextField label="email" 
                         variant="outlined"
-                        name="login"
-                        value={formik.values.login}
+                        name="email"
+                        value={formik.values.email}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={(formik.errors.login && formik.touched.login) ? true : false}
-                        helperText={(formik.errors.login && formik.touched.login) ? formik.errors.login : ''}
+                        error={(formik.errors.email && formik.touched.email) ? true : false}
+                        helperText={(formik.errors.email && formik.touched.email) ? formik.errors.email : ''}
                         fullWidth />
           </div>
           <div className={styles.inputField}>
@@ -136,7 +136,7 @@ export default function LoginPage(props:Iprops) {
                         fullWidth
             />
           </div>
-          <Button className={styles.loginBtn}
+          <Button className={styles.emailBtn}
                   variant="contained" 
                   color="primary" 
                   type="submit"
@@ -152,7 +152,7 @@ export default function LoginPage(props:Iprops) {
           >
             log in anonymously
           </Button>
-          <Link className={styles.linkBtn} to={'/login/registration'}>
+          <Link className={styles.linkBtn} to={'/email/registration'}>
             <Button color="primary">
               registration
             </Button>
