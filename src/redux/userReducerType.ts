@@ -1,4 +1,5 @@
 import { IMyCastomThunk } from "./store"
+import { IremoveDialogs } from "./dialogsReducerType"
 
 export const SET_USER = 'SET_USER' 
 export const RESET_USER = 'RESET_USER' 
@@ -25,7 +26,7 @@ export interface IsetUserClient {
 }
 
 export type IuserReducerActions = IsetUser|IresetUser|
-                                  IsetUserClient
+                                  IsetUserClient|IremoveDialogs
 
 export interface IuserReducerState {
   userInfo?: IuserInfo

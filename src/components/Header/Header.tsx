@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 export default function Header(props: Iprops) {
   let styles = useStyles();
     return (
-      <AppBar color="primary" className={''}>
+      <AppBar color="primary" className={''} position={'static'}>
         <div className={stylesM.header}>
             <div>
                 React Chat

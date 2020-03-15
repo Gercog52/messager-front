@@ -34,7 +34,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function DiaglogsList() {
+export default function UsersList() {
   const classes = useStyles();
 
   return (
@@ -44,7 +44,7 @@ export default function DiaglogsList() {
           <TableRow>
             <TableCell>
               <Typography variant="h6" id="tableTitle" className={classes.title}>
-                Dialogs
+                Users
               </Typography>
             </TableCell>
           </TableRow>

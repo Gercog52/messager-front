@@ -6,4 +6,7 @@
     padding: 0 15px;
     color: white;
     font-size: 20px;
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
 }

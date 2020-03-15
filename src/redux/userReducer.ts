@@ -9,6 +9,7 @@ import {IuserReducerState,
         SET_USER_CLIENT,
         IuserReducerThunk,
 } from "./userReducerType";
+import { dialogsConnectThunk, removeDialogs } from "./dialogsReducer";
 
 export const setUser = (data: IuserInfo, client: any):IsetUser => {
   return {
@@ -28,8 +29,14 @@ export const setUserClient = (client: any):IsetUserClient => {
     client,
   }
 }
-export const setUserThunk = (data: IuserInfo, userClient: any):IuserReducerThunk<void> => (dispatch) => {
-  dispatch(setUser(data,userClient));
+export const setUserThunk = (data: IuserInfo, userClient: any):IuserReducerThunk<Promise<void>> => 
+  async (dispatch) => {
+    dispatch(setUser(data,userClient));
+    await dispatch(dialogsConnectThunk());
+}
+export const resetUserThunk = (): IuserReducerThunk<void> => (dispatch) => {
+  dispatch(removeDialogs());
+  dispatch(resetUser());
 }
 
 const StartState: IuserReducerState = {}
@@ -45,10 +52,7 @@ export default function UserReducer (state=StartState, actions: IuserReducerActi
         userClient: actions.client
       }
     case RESET_USER: 
-      return {
-        userInfo: undefined,
-        userClient: undefined
-      }
+      return {}
     case SET_USER_CLIENT: 
       return {
         ...state,

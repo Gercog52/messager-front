@@ -14,7 +14,7 @@ import { IregistrationData, resultCodeInfo, IloginData} from '../api/apiType';
 import {TokenProvider, ChatManager } from '@pusher/chatkit-client';
 import {
          setUserThunk,
-         resetUser,
+         resetUserThunk,
 } from './userReducer';
 
 
@@ -67,14 +67,6 @@ export const loginAnonimusThunk = (): IauthThunk<Promise<void>> => async(dispatc
     .connect()
     .then((currentUserClient: any) => {
       console.log("Connected as user ", currentUserClient.rooms);
-      currentUserClient.subscribeToRoomMultipart({
-        roomId: currentUserClient.rooms[0].id,
-        hooks: {
-          onMessage: (message:any) => {
-            console.log("Received message:", message)
-          }
-        }
-      })
       dispatch(setUserThunk({
         firstName: 'anonimus',
         date: '*',
@@ -82,14 +74,13 @@ export const loginAnonimusThunk = (): IauthThunk<Promise<void>> => async(dispatc
         gender: '*',
         surname: '*'
       },currentUserClient))
-      dispatch(auth());
-    })
-    .then(() => {
-      
+      .then(() => {
+        dispatch(auth());
+      })
     })
 }
 export const logOutUserThunk = ():IauthThunk<void> => (dispatch) => {
-  dispatch(resetUser());
+  dispatch(resetUserThunk());
   dispatch(logOutUser());
 }
 

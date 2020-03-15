@@ -2,6 +2,7 @@ import {createStore, combineReducers, applyMiddleware, compose, Action} from 're
 import thunkMiddleware, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import authReducer from './authReducer';
 import usersReducer from './userReducer';
+import dialogsReducer from './dialogsReducer';
 
 declare global {
   interface Window {
@@ -12,6 +13,7 @@ declare global {
 const redusers = combineReducers ({
   authData: authReducer,
   userInfo: usersReducer,
+  userDialogs: dialogsReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(redusers, composeEnhancers(applyMiddleware(thunkMiddleware)));
