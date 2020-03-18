@@ -33,7 +33,7 @@ const setAuthErrorMessag = (messag: string): IsetAuthErrorMessag => {
 };
 const logOutUser = (): IlogOutUser => {
   return {
-    type: LOG_OUT_USER
+    type: LOG_OUT_USER,
   }
 }
 export const registrationThunk = (data: IregistrationData):IauthThunk<Promise<void>> => async(dispatch) => {
