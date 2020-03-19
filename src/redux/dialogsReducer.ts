@@ -27,6 +27,11 @@ export const dialogsConnectThunk = ():IdialogsReducerThunk<Promise<void>> => (di
     let userClient = getState().userInfo.userClient;
     if (userClient) {
       let FullPromisRoom: Array<Promise<void>> = [];
+      // delete later
+      if (!userClient.rooms) {
+        userClient.rooms = []
+      }
+      ///
       userClient.rooms.forEach((roomInfo: any) => {
         FullPromisRoom.push(userClient.subscribeToRoomMultipart({
           roomId: roomInfo.id,

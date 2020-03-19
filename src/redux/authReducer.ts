@@ -40,7 +40,7 @@ export const registrationThunk = (data: IregistrationData):IauthThunk<Promise<vo
   let infoRegistration = await registrationRequest(data);
   if ((infoRegistration.resultCode === resultCodeInfo.sicces) && infoRegistration.data) {
     dispatch(setUserThunk(infoRegistration.data,() => {}));
-    dispatch(auth)
+    dispatch(auth());
   } else if (infoRegistration.resultCode === resultCodeInfo.error) {
     dispatch(setAuthErrorMessag(infoRegistration.messag))
   }
