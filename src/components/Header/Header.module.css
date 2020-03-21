@@ -10,3 +10,10 @@
     width: 100%;
     margin: 0 auto;
 }
+.blockInfo {
+  display: flex;
+  align-items: center;
+}
+.blockInfo__userName {
+  margin-right: 10px;
+}

@@ -9,6 +9,7 @@ import LoginPageContiner from './components/LoginPage/LoginPageContiner';
 import './App.css'
 
 interface Iprops {
+  firstName?: string
   isAuth: boolean
   logOutUserThunk: () => void
 }
@@ -19,14 +20,15 @@ function App(props: Iprops) {
   }
   return (
     <div className="">
-      <Header logOutUser={props.logOutUserThunk}/>
+      <Header logOutUser={props.logOutUserThunk} userName={props.firstName}/>
       <Content/>
     </div>
   )
 }
 const AppContiner = connect((state: IRootState) => {
   return {
-    isAuth: state.authData.isAuth
+    isAuth: state.authData.isAuth,
+    firstName: state.userInfo.userInfo && state.userInfo.userInfo.firstName
   }
 }, {
   logOutUserThunk
