@@ -20,7 +20,9 @@ function App(props: Iprops) {
   }
   return (
     <div className="">
-      <Header logOutUser={props.logOutUserThunk} userName={props.firstName}/>
+      <Header logOutUser={props.logOutUserThunk} 
+              userName={props.firstName}
+      />
       <Content/>
     </div>
   )
