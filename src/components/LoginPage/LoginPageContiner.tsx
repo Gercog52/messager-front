@@ -16,7 +16,7 @@ interface Iprops {
 
 function LoginPageContiner(props: Iprops) {
   if (props.isAuth) {
-    return <Redirect to='/'/>
+    return <Redirect to='/dialogs'/>
   }
     return (
         <div>
