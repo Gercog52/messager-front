@@ -6,7 +6,7 @@ import { IRootState } from '../../redux/store'
 import { withRouter, RouteComponentProps, match } from 'react-router-dom'
 
 interface Iprops extends RouteComponentProps {
-  math: match<{roomId?: string}>
+  match: match<{roomId?: string}>
   roomsList: Irooms
 }
 
@@ -14,7 +14,7 @@ export function MessagesPageContiner(props: Iprops) {
   return (
     <>
       <MessagesPage roomsList={props.roomsList}
-                    roomIdOpen={props.math.params.roomId}
+                    roomIdOpen={props.match.params.roomId}
       />
     </>
   )

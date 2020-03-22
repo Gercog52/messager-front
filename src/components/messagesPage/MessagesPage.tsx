@@ -23,7 +23,7 @@ export default function MessagesPage(props: Iprops) {
       justifyContent: 'center'
      }}>
       <DiaglogsList roomsList={props.roomsList}/>
-      <MassagInput/>
+      <MassagInput dialogs={OpenRoomMessages}/>
       <UsersList/>
     </div>
   )
