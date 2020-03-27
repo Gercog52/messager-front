@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField';
 import { Icon, Button, makeStyles } from '@material-ui/core';
-import { Idialogs } from '../../redux/dialogsReducerType';
+import { Idialogs, Imessag } from '../../redux/dialogsReducerType';
 
 
 interface Iprops {
+  idRoom?: string
+  nameRoom: string
   dialogs: Idialogs
+  dialogsSendMessagThunk: (idRoom: string, nameRoom: string, message: string) => Promise<void>
 }
 const useStyle = makeStyles({
   messagesContiner: {
@@ -25,11 +28,20 @@ const useStyle = makeStyles({
 
 export default function MassagInput(props: Iprops) {
   const styles = useStyle();
+  const [message, setMessage] = useState('');
   
+  const handleSubmit = () => {
+    if (message.length && props.idRoom) {
+      props.dialogsSendMessagThunk(props.idRoom, props.nameRoom, message)
+      setMessage('')
+    }
+  }
+
   return (
     <div style={{
       maxWidth: '1000px',
-      padding: '0 15px'
+      padding: '0 15px',
+      marginTop: 5,
     }}>
       <div className={styles.messagesContiner}>
         {props.dialogs.map((item) => 
@@ -38,7 +50,9 @@ export default function MassagInput(props: Iprops) {
           </div>
         )}
       </div>
-      <form style={{display: 'flex', flexDirection: 'column'}}>
+      <form style={{display: 'flex', flexDirection: 'column', marginTop: 15}}
+            onSubmit={handleSubmit}
+      >
         <TextField
           id="outlined-textarea"
           label="messag"
@@ -47,17 +61,19 @@ export default function MassagInput(props: Iprops) {
           variant="outlined"
           fullWidth
           multiline
+          value={message}
+          onChange={(e) => {setMessage(e.target.value)}}
         />
         <Button
           variant="contained"
           color="primary"
+          type="submit"
           style={{marginTop: 10}}
           endIcon={<Icon>send</Icon>}
         >
           Send
         </Button>
       </form>
-      
     </div>
   )
 }
