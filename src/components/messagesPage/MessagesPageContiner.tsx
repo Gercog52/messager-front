@@ -9,7 +9,7 @@ import { dialogsSendMessagThunk } from '../../redux/dialogsReducer'
 interface Iprops extends RouteComponentProps {
   match: match<{roomId?: string}>
   roomsList: Irooms
-  dialogsSendMessagThunk: (idRoom: string, nameRoom: string, message: string) => Promise<void>
+  dialogsSendMessagThunk: (idRoom: string, message: string) => Promise<void>
 }
 
 export function MessagesPageContiner(props: Iprops) {

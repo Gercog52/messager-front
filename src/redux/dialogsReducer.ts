@@ -52,7 +52,7 @@ export const dialogsConnectThunk = ():IdialogsReducerThunk<Promise<void>> => (di
     }
   })
 }
-export const dialogsSendMessagThunk = (idRoom: string, nameRoom: string, message: string):IdialogsReducerThunk<Promise<void>> => async (dispatch,getState) => {
+export const dialogsSendMessagThunk = (idRoom: string, message: string):IdialogsReducerThunk<Promise<void>> => async (dispatch,getState) => {
   const userClient = getState().userInfo.userClient
   if (userClient) {
     return userClient.sendSimpleMessage({

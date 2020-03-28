@@ -7,7 +7,7 @@ import MassagInput from './MassagInput'
 interface Iprops {
   roomIdOpen?: string
   roomsList: Irooms
-  dialogsSendMessagThunk: (idRoom: string, nameRoom: string, message: string) => Promise<void>
+  dialogsSendMessagThunk: (idRoom: string, message: string) => Promise<void>
 }
 
 export default function MessagesPage(props: Iprops) {
