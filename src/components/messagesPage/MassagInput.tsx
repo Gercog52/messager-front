@@ -39,7 +39,7 @@ const useStyle = makeStyles({
     color: '#fff',
     margin: '2.5px 0px',
     padding: 10,
-  },//#9E9E9E,
+  },
   messagLine: {
     display: 'flex'
   },
