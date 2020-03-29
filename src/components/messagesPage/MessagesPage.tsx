@@ -1,6 +1,5 @@
 import React from 'react'
 import DiaglogsList from './DiaglogsList'
-import UsersList from './UsersList'
 import { Irooms, Idialogs, Imessag } from '../../redux/dialogsReducerType'
 import MassagInput from './MassagInput'
 
@@ -22,7 +21,7 @@ export default function MessagesPage(props: Iprops) {
       maxWidth: 960,
       margin: '0 auto',
       display: 'grid',
-      gridTemplateColumns: '200px 1fr 200px',
+      gridTemplateColumns: '200px 1fr',
       justifyContent: 'center'
      }}>
       <DiaglogsList roomsList={props.roomsList}/>
@@ -31,7 +30,6 @@ export default function MessagesPage(props: Iprops) {
                    nameRoom={nameRoom}
                    dialogsSendMessagThunk={props.dialogsSendMessagThunk}
       />
-      <UsersList/>
     </div>
   )
 }

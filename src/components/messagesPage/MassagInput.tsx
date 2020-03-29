@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField';
 import { Icon, Button, makeStyles } from '@material-ui/core';
 import { Idialogs, Imessag } from '../../redux/dialogsReducerType';
@@ -16,7 +16,9 @@ const useStyle = makeStyles({
     flexDirection: 'column',
     height: '100%',
     overflow: 'auto',
-    maxHeight: 900,
+    maxHeight: 600,
+    minHeight: 600,
+    transition: '0.5s'
   },
   imgSender: {
     height: 50,
@@ -57,10 +59,20 @@ const useStyle = makeStyles({
 export default function MassagInput(props: Iprops) {
   const styles = useStyle();
   const [message, setMessage] = useState('');
+  const messageBoard = useRef<HTMLDivElement|null>(null);
+
+  useEffect(() => {
+    messageBoard.current && messageBoard.current.scrollTo(0,1000000000);
+  },[props.dialogs])
   
   const handleSubmit = () => {
     if (message.length && props.idRoom) {
-      props.dialogsSendMessagThunk(props.idRoom, message)
+      props.dialogsSendMessagThunk(props.idRoom, message).then(() => {
+        /*setTimeout(() => {
+          messageBoard.current && messageBoard.current.scrollTo(0,1000000000);
+          console.log('chenge');
+        },45)*/
+      })
       setMessage('')
     }
   }
@@ -71,7 +83,7 @@ export default function MassagInput(props: Iprops) {
       padding: '0 15px',
       marginTop: 5,
     }}>
-      <div className={styles.messagesContiner}>
+      <div ref={messageBoard} className={styles.messagesContiner}>
         {props.dialogs.map((item, index) => {
           const flag = (item.senderId !== (props.dialogs[index+1] && props.dialogs[index+1].senderId));
           const flag2 = buf !== item.senderId;
